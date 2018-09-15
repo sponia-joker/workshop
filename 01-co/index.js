@@ -1,5 +1,4 @@
-
-var fs = require('fs');
+var fs = require("fs");
 
 /**
  * Create a yieldable version of `fs.stat()`:
@@ -11,8 +10,16 @@ var fs = require('fs');
  * Hint: you can return a yieldable.
  */
 
-exports.stat = function (filename) {
-
+exports.stat = function(filename) {
+  return new Promise(function(resolve, reject) {
+    fs.stat(filename, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
 };
 
 /**
@@ -31,6 +38,14 @@ exports.stat = function (filename) {
  * is not an error object, unlike node callbacks.
  */
 
-exports.exists = function (filename) {
-
+exports.exists = function(filename) {
+  return new Promise(function(resolve, reject) {
+    fs.stat(filename, function(err, result) {
+      if (err) {
+        resolve(false);
+      } else {
+        resolve(true);
+      }
+    });
+  });
 };
